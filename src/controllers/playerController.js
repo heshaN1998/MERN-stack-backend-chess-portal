@@ -20,7 +20,7 @@ const createPlayer=async (req,res)=>{
 
 const getAllPlayers=async(req,res)=>{
     try{
-        const { search,country,level }=req.query;
+        const { search,country,level,sort }=req.query;
         let query={};
         //searching section
         if(search){
@@ -36,6 +36,14 @@ const getAllPlayers=async(req,res)=>{
         if(level){
             query.level=level;
         }
+        //creating mongoose query for project
+        let playerQuery=Player.find(query);
+        if(sort){
+            playerQuery=playerQuery.sort(sort);
+        }else{
+            playerQuery=playerQuery.sort("-createdAt");
+        }
+
 
         const players=await Player.find(query);
         res.status(200).json({
