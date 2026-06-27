@@ -20,7 +20,24 @@ const createPlayer=async (req,res)=>{
 
 const getAllPlayers=async(req,res)=>{
     try{
-        const players=await Player.find();
+        const { search,country,level }=req.query;
+        let query={};
+        //searching section
+        if(search){
+            query.name={
+                $regex:search,
+                $options:"i"
+            };
+        }
+        //filtering section
+        if(country){
+            query.country=country;
+        }
+        if(level){
+            query.level=level;
+        }
+
+        const players=await Player.find(query);
         res.status(200).json({
             success:true,
             count:players.length,
