@@ -20,7 +20,7 @@ const createPlayer=async (req,res)=>{
 
 const getAllPlayers=async(req,res)=>{
     try{
-        const { search,country,level,sort }=req.query;
+        const { search,country,level,sort,page=1,limit=5 }=req.query;
         let query={};
         //searching section
         if(search){
@@ -36,6 +36,12 @@ const getAllPlayers=async(req,res)=>{
         if(level){
             query.level=level;
         }
+        //adding pagination
+        const pageNumber=parseInt(page);
+        const limitNumber=parseInt(limit);
+
+        const skip=(pageNumber-1)*limitNumber;
+        
         //creating mongoose query for project
         let playerQuery=Player.find(query);
         if(sort){
@@ -44,10 +50,15 @@ const getAllPlayers=async(req,res)=>{
             playerQuery=playerQuery.sort("-createdAt");
         }
 
+        playerQuery=playerQuery.skip(skip).limit(limitNumber);
 
-        const players=await Player.find(query);
+        const players=await playerQuery;
+        const totalPlayers=await Player.countDocuments(query)
         res.status(200).json({
             success:true,
+            page:pageNumber,
+            totalPages:Math.ceil(totalPlayers/limitNumber),
+            totalPlayers,    
             count:players.length,
             data:players
         });
