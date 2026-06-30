@@ -3,6 +3,7 @@ const dotenv=require("dotenv");
 const cors=require("cors");
 const connectDB=require("./config/db");
 const playerRoutes=require("./routes/playerRoutes");
+const authRoutes=require("./routes/authRoutes");
 
 dotenv.config();
 const app=express();
@@ -12,6 +13,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use("/api/players",playerRoutes);
+app.use("/api/auth",authRoutes);
 
 //tesing route
 app.get("/",(req,res)=>{
