@@ -25,4 +25,4 @@ const upload =multer({
     storage,
     fileFilter
 });
-Module.exports=upload;
+module.exports=upload;

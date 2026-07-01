@@ -3,9 +3,9 @@ const router=express.Router();
 const protect=require("../middleware/authMiddleware");
 const authorizeRoles=require("../middleware/roleMiddleware");
 const upload=require("../middleware/uploadMiddleware");
+const  validate  =require("../middleware/validationMiddleware");
 
 const { createPlayer,getAllPlayers,getPlayerById,updatePlayer,deletePlayer } = require("../controllers/playerController");
-const { validate } = require("../middleware/validationMiddleware");
 const { playerValidation }=require("../validators/playerValidator");
 //those are public routes
 router.get("/",getAllPlayers);
