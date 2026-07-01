@@ -1,0 +1,27 @@
+const multer=require("multer");
+const path=require("path");
+
+//for storage
+const storage=multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,"src/uploads");
+    },
+    filename:(req,file,cb)=>{
+        const uniqueName=Date.now()+"-"+Math.round(Math.random()*1e9);
+        cb(
+            null,uniueName+path.extname(file.originalname)
+        );
+    }
+});
+
+const fileFilter=(req,file,cb)=>{
+    if(file.mimetype.startWith("image/")){
+        cb(null,true);
+    }else{
+        cb(new Error("Only image allowed"),false);
+    }
+};
+const upload =multer({
+    storage,
+    fileFilter
+});
