@@ -1,6 +1,5 @@
 const Player=require("../models/Player");
 
-//creating player
 const createPlayer=async (req,res)=>{
     try{
         const playerData={

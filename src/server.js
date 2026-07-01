@@ -6,7 +6,7 @@ const connectDB=require("./config/db");
 const playerRoutes=require("./routes/playerRoutes");
 const authRoutes=require("./routes/authRoutes");
 const errorHandler=require("./middleware/errorMiddleware");
-
+const setupSwagger=require("./config/swagger");
 
 dotenv.config();
 const app=express();
@@ -15,9 +15,11 @@ connectDB();
 //middleware
 app.use(cors());
 app.use(express.json());
+setupSwagger(app);
 app.use("/api/players",playerRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/uploads",express.static(path.join(__dirname,"uploads")));
+
 
 //tesing route
 app.get("/",(req,res)=>{
