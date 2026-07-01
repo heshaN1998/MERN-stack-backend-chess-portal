@@ -76,10 +76,9 @@ const getPlayerById=async(req,res)=>{
     try{
         const player=await Player.findById(req.params.id);
         if(!player){
-            return res.status(404).json({
-                success:false,
-                message:"Player not found"
-            });
+            res.status(404);
+            throw new Error("player not found");
+               
         }
         res.status(200).json({
             success:true,
@@ -97,10 +96,8 @@ const deletePlayer=async(req,res)=>{
     try{
         const player =await Player.findByIdAndDelete(req.params.id);
         if(!player){
-            return res.status(404).json({
-                success:false,
-                message:"Player not found"
-            });
+            res.status(404);
+            throw new Error("player not found");
         }
         res.status(200).json({
             success:true,

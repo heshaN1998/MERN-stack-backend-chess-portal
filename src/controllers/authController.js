@@ -44,17 +44,14 @@ const login=async(req,res)=>{
         const { userName,password }=req.body;
         const user=await User.findOne({ userName });
         if(!user){
-            return res.status(401).json({
-                success:false,
-                message:"invalid username or password"
-            });
+            res.status(401);
+            throw new Error("invalid userName or Password");
         }
         const isMatch=await bcrypt.compare(password,user.password);
         if(!isMatch){
-            return res.status(401).json({
-                success:false,
-                message:"invalid username or password"
-            });        }
+            res.status(401);
+            throw new Error("invalid username or password");
+                }        
         //generate JWT token
         const token=generateToken(user._id,user.role);
         res.status(200).json({
