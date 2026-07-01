@@ -9,13 +9,13 @@ const storage=multer.diskStorage({
     filename:(req,file,cb)=>{
         const uniqueName=Date.now()+"-"+Math.round(Math.random()*1e9);
         cb(
-            null,uniueName+path.extname(file.originalname)
+            null,uniqueName+path.extname(file.originalname)
         );
     }
 });
 
 const fileFilter=(req,file,cb)=>{
-    if(file.mimetype.startWith("image/")){
+    if(file.mimetype.startsWith("image/")){
         cb(null,true);
     }else{
         cb(new Error("Only image allowed"),false);
@@ -25,3 +25,4 @@ const upload =multer({
     storage,
     fileFilter
 });
+Module.exports=upload;
